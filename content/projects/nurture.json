@@ -1,0 +1,13 @@
+{
+  "slug": "nurture",
+  "title": "Nurture",
+  "description": "Nurture is a parent-focused mental health app designed to reduce the emotional and mental burden of parenting by helping parents share responsibilities, communicate how they feel, and better understand their sleep and recovery. Through task delegation, shared mood logs, and advanced sleep insights, Nurture turns everyday family routines into something parents can manage together — making it easier to recognize when one another needs support, balance the workload, and build healthier habits as a family.",
+  "tags": ["product design", "ui/ux", "mental health", "mobile app"],
+  "featured": false,
+  "link_url": "https://www.figma.com/proto/9pIdrNuu1nGMQpwW3WnQeJ/Triple-Asyiap?node-id=648-830&p=f&t=EfgGHa5JF4ei7kJZ-1&scaling=scale-down&content-scaling=fixed&page-id=647%3A828&starting-point-node-id=1075%3A3759&show-proto-sidebar=1",
+  "file_path": null,
+  "cover_image_path": "/media/projects/nurture/cover.png",
+  "cover_media_kind": "image",
+  "cover_poster_path": null,
+  "sort_order": 2
+}

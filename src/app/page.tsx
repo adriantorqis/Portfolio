@@ -1,24 +1,25 @@
+import { CopyEmail } from "@/components/CopyEmail";
 import { Footer } from "@/components/Footer";
+import { Highlighted } from "@/components/Highlighted";
+import { ParallaxMedia } from "@/components/ParallaxMedia";
+import { PhotoCarousel } from "@/components/PhotoCarousel";
 import { PhotoPlaceholder } from "@/components/PhotoPlaceholder";
-import { ProjectCarousel } from "@/components/ProjectCarousel";
+import { ProjectList } from "@/components/ProjectList";
 import { Reveal } from "@/components/Reveal";
-import {
-  getLatestResume,
-  getProfile,
-  getProjects,
-  getTestimonials,
-  publicStorageUrl,
-} from "@/lib/data";
+import { SplitHeadline } from "@/components/SplitHeadline";
+import { getOffTheClockPhotos, getProfile, getProjects, getTestimonials } from "@/lib/content";
+import Image from "next/image";
 
 export default async function HomePage() {
-  const [projects, profile, resume, testimonials] = await Promise.all([
+  const [projects, profile, testimonials, offTheClockPhotos] = await Promise.all([
     getProjects(),
     getProfile(),
-    getLatestResume(),
     getTestimonials(),
+    getOffTheClockPhotos(),
   ]);
-  const heroPhoto = publicStorageUrl("covers", profile?.hero_image_path ?? null);
-  const resumeUrl = resume ? publicStorageUrl("resumes", resume.file_path) : null;
+  const heroPhoto = profile.hero_image_path;
+  const resumeUrl = profile.resume?.file_path ?? null;
+  const bioParagraphs = profile.bio ? profile.bio.split("\n\n") : [];
 
   return (
     <>
@@ -27,33 +28,63 @@ export default async function HomePage() {
         <section className="px-6 pb-24 pt-20 md:px-12 md:pb-32 md:pt-28">
           <div className="mx-auto max-w-5xl">
             <div className="grid gap-14 md:grid-cols-[1.35fr_1fr] md:items-end md:gap-16">
-              <Reveal>
-                <p className="eyebrow">Portfolio</p>
-                <h1 className="display mt-6 text-5xl sm:text-6xl lg:text-7xl">
-                  {profile?.headline || "Selected work"}
-                </h1>
-                <p className="mt-8 max-w-md text-lg leading-relaxed text-muted">
-                  Selected projects, case studies, and the occasional strong opinion.
-                </p>
-                <div className="mt-10 flex flex-wrap gap-x-8 gap-y-3 text-sm">
-                  <a href="#work" className="link-underline">
-                    View work
-                  </a>
-                  <a href="#about" className="link-underline">
-                    About
-                  </a>
-                  <a href="#contact" className="link-underline">
-                    Get in touch
-                  </a>
-                </div>
-              </Reveal>
+              {/* Staggered rather than one block, so the hero assembles itself
+                  line by line instead of arriving all at once. */}
+              <div>
+                <Reveal>
+                  <p className="eyebrow">Portfolio</p>
+                </Reveal>
+                <SplitHeadline
+                  text={profile?.headline || "Selected work"}
+                  className="display mt-6 text-5xl sm:text-6xl lg:text-7xl"
+                />
+                <Reveal delay={180}>
+                  <p className="mt-8 max-w-md text-lg leading-relaxed text-muted">
+                    Selected projects, case studies, and the occasional strong opinion.
+                  </p>
+                </Reveal>
+                <Reveal delay={270}>
+                  <div className="mt-10 flex flex-wrap gap-x-8 gap-y-3 text-sm">
+                    {[
+                      { href: "#work", label: "View work" },
+                      { href: "#about", label: "About" },
+                      { href: "#contact", label: "Get in touch" },
+                    ].map(({ href, label }) => (
+                      <a key={href} href={href} className="group/link link-underline inline-flex items-center gap-1.5">
+                        {label}
+                        <span
+                          aria-hidden="true"
+                          className="inline-block transition-transform duration-300 group-hover/link:translate-x-1"
+                        >
+                          &rarr;
+                        </span>
+                      </a>
+                    ))}
+                  </div>
+                </Reveal>
+              </div>
 
               <Reveal delay={120}>
                 {heroPhoto ? (
-                  <div className="photo-frame aspect-[4/5] w-full">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={heroPhoto} alt="" />
-                  </div>
+                  // No .photo-frame here on purpose — that class paints a
+                  // tinted background behind the image and forces
+                  // object-fit:cover (crops to fill the box), which is
+                  // exactly wrong for a cutout with a transparent
+                  // background: object-contain shows the whole PNG/WebP
+                  // with nothing painted behind it, so the page's own
+                  // background shows through the transparent areas.
+                  // (A JPEG can never be transparent — no alpha channel in
+                  // the format — so this only works with a PNG/WebP source.)
+                  <ParallaxMedia className="aspect-[4/5] w-full">
+                    <Image
+                      src={heroPhoto}
+                      alt=""
+                      fill
+                      sizes="(min-width: 768px) 40vw, 90vw"
+                      priority
+                      className="object-contain"
+                    />
+                  </ParallaxMedia>
                 ) : (
                   <PhotoPlaceholder className="aspect-[4/5] w-full" label="Portrait" />
                 )}
@@ -64,18 +95,15 @@ export default async function HomePage() {
 
         {/* WORK */}
         <section id="work" className="scroll-mt-16 border-t border-line py-20 md:py-28">
-          <div className="mx-auto max-w-5xl">
-            <Reveal className="flex items-end justify-between gap-6 px-6 md:px-12">
-              <div>
-                <p className="eyebrow">Selected work</p>
-                <h2 className="display mt-4 text-3xl md:text-4xl">Projects</h2>
-              </div>
-              <p className="hidden text-sm text-muted sm:block">Drag or use the arrows</p>
+          <div className="mx-auto max-w-5xl px-6 md:px-12">
+            <Reveal>
+              <p className="eyebrow">Selected work</p>
+              <h2 className="display mt-4 text-3xl md:text-4xl">Projects</h2>
             </Reveal>
+            <div className="mt-12">
+              <ProjectList projects={projects} />
+            </div>
           </div>
-          <Reveal delay={100} className="mx-auto mt-12 max-w-5xl">
-            <ProjectCarousel projects={projects} />
-          </Reveal>
         </section>
 
         {/* NOW */}
@@ -87,7 +115,7 @@ export default async function HomePage() {
                 <p className="eyebrow">Currently</p>
               </div>
               <p className="display max-w-2xl text-xl leading-snug md:text-2xl">
-                {profile?.now_status || "Add a current status from /admin."}
+                {profile?.now_status || "Add a current status to content/profile.json."}
               </p>
             </Reveal>
           </div>
@@ -102,7 +130,7 @@ export default async function HomePage() {
               </Reveal>
               <div className="mt-14 grid gap-12 md:grid-cols-3 md:gap-10">
                 {testimonials.map((t, i) => (
-                  <Reveal as="article" key={t.id} delay={i * 90}>
+                  <Reveal as="article" key={`${t.author}-${i}`} delay={i * 90}>
                     <p className="display text-lg leading-snug text-bg/90">
                       &ldquo;{t.quote}&rdquo;
                     </p>
@@ -123,14 +151,35 @@ export default async function HomePage() {
             <Reveal className="grid gap-12 md:grid-cols-[auto_1fr] md:gap-16">
               <p className="eyebrow md:pt-2">About</p>
               <div className="max-w-2xl">
-                <p className="display text-2xl leading-snug md:text-3xl">
-                  {profile?.bio?.split("\n\n")[0] || "Bio coming soon."}
-                </p>
-                {profile?.bio?.split("\n\n").slice(1).map((para, i) => (
-                  <p key={i} className="mt-6 leading-relaxed text-muted">
-                    {para}
+                {bioParagraphs.length ? (
+                  bioParagraphs.map((para, i) => (
+                    <p
+                      key={i}
+                      className={
+                        i === 0
+                          ? "display text-2xl leading-snug md:text-3xl"
+                          : "mt-6 leading-relaxed text-muted"
+                      }
+                    >
+                      <Highlighted text={para} />
+                    </p>
+                  ))
+                ) : (
+                  <p className="display text-2xl leading-snug md:text-3xl">
+                    Bio coming soon.
                   </p>
-                ))}
+                )}
+
+                {profile.socials.linkedin ? (
+                  <a
+                    href={profile.socials.linkedin}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="link-underline mt-6 inline-block text-sm"
+                  >
+                    Connect on LinkedIn
+                  </a>
+                ) : null}
 
                 {profile?.skills?.length ? (
                   <ul className="mt-12 grid grid-cols-2 gap-x-8 gap-y-3 border-t border-line pt-8 sm:grid-cols-3">
@@ -149,16 +198,26 @@ export default async function HomePage() {
         {/* OFF THE CLOCK */}
         <section className="border-t border-line py-20 md:py-28">
           <div className="mx-auto max-w-5xl px-6 md:px-12">
-            <Reveal className="grid gap-12 md:grid-cols-[auto_1fr] md:gap-16">
-              <p className="eyebrow md:pt-2">Off the clock</p>
-              <div className="grid max-w-2xl gap-10 sm:grid-cols-[1fr_auto] sm:items-start">
-                <p className="leading-relaxed whitespace-pre-line text-muted">
-                  {profile?.story ||
-                    "Add the personal side from /admin — hobbies, the life before this, whatever makes you a person and not a PDF."}
-                </p>
-                <div className="flex gap-4 sm:flex-col">
-                  <PhotoPlaceholder className="aspect-square w-24 sm:w-28" label="Photo" />
-                  <PhotoPlaceholder className="aspect-square w-24 sm:w-28" label="Photo" />
+            <Reveal className="grid gap-10 md:grid-cols-[auto_1fr] md:gap-16">
+              <p className="eyebrow md:pt-2">Academic &amp; Organizational Activities</p>
+              {/* No max-w here — the photo strip spans the full content
+                  column rather than being squeezed to reading width; only
+                  the story paragraph itself (when there is one) gets
+                  capped back down for legibility.
+                  min-w-0 matters: a grid item's default min-width is auto,
+                  which means it refuses to shrink below its content's
+                  intrinsic size — since the carousel's row of wide photos
+                  has a huge intrinsic width, without this the grid track
+                  (and the whole page) would stretch to fit it instead of
+                  the carousel's own overflow-x staying contained. */}
+              <div className="min-w-0">
+                {profile?.story ? (
+                  <p className="max-w-2xl leading-relaxed whitespace-pre-line text-muted">
+                    {profile.story}
+                  </p>
+                ) : null}
+                <div className={profile?.story ? "mt-10" : undefined}>
+                  <PhotoCarousel photos={offTheClockPhotos} />
                 </div>
               </div>
             </Reveal>
@@ -174,14 +233,7 @@ export default async function HomePage() {
                 Let&rsquo;s work together
               </h2>
 
-              {profile?.email ? (
-                <a
-                  href={`mailto:${profile.email}`}
-                  className="link-underline mt-10 inline-block break-all text-xl md:text-2xl"
-                >
-                  {profile.email}
-                </a>
-              ) : null}
+              {profile?.email ? <CopyEmail email={profile.email} /> : null}
 
               <div className="mt-12 flex flex-wrap gap-x-8 gap-y-3 border-t border-line pt-8 text-sm">
                 {resumeUrl ? (

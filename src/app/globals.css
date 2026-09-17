@@ -81,7 +81,7 @@ body {
   overflow: hidden;
   background: var(--color-surface);
 }
-.photo-frame img {
+.photo-frame :is(img, video) {
   display: block;
   width: 100%;
   height: 100%;
@@ -102,14 +102,125 @@ body {
    visible if JS never runs, so content is never trapped invisible. */
 .reveal {
   opacity: 0;
-  transform: translateY(14px);
-  transition: opacity 0.7s cubic-bezier(0.2, 0.6, 0.2, 1),
-    transform 0.7s cubic-bezier(0.2, 0.6, 0.2, 1);
-  will-change: opacity, transform;
+  transform: translateY(16px);
+  filter: blur(5px);
+  transition: opacity 0.8s cubic-bezier(0.2, 0.6, 0.2, 1),
+    transform 0.8s cubic-bezier(0.2, 0.6, 0.2, 1),
+    filter 0.8s cubic-bezier(0.2, 0.6, 0.2, 1);
+  will-change: opacity, transform, filter;
 }
 .reveal[data-visible="true"] {
   opacity: 1;
   transform: none;
+  filter: none;
+}
+
+/* Now that cards, tags, and the track itself are all keyboard-reachable,
+   there has to be a visible focus ring — the browser default is invisible
+   against this palette. :focus-visible so pointer users never see it. */
+:where(a, button, [tabindex]):focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+}
+
+/* Project media tile. The card is the image: full-bleed, generously
+   rounded, sitting on a tinted panel so a loading or short cover never
+   shows a hole. Metadata lives *below* the tile, which is what keeps the
+   grid feeling like images first and text second.
+   The lift lives here on .tile; the entrance transform lives on the .reveal
+   wrapper further out, so the two never fight over `transform`. */
+.tile {
+  position: relative;
+  overflow: hidden;
+  border-radius: 1.75rem;
+  background: var(--color-surface);
+  outline: 0 solid var(--color-ink);
+  outline-offset: 0;
+  transition: transform 0.5s cubic-bezier(0.2, 0.7, 0.2, 1),
+    box-shadow 0.45s ease, outline-width 0.35s ease, outline-offset 0.35s ease;
+}
+.tile :is(img, video) {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* Pre-scaled so the hover push has somewhere to go without ever
+     revealing an edge inside the rounded clip. */
+  transform: scale(1.06);
+  transition: transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+/* focus-within keeps the keyboard path visually identical to the mouse one */
+.group:hover .tile,
+.group:focus-within .tile {
+  transform: translateY(-6px);
+  box-shadow: 0 26px 50px -30px color-mix(in srgb, var(--color-ink) 60%, transparent);
+  outline-width: 2px;
+  outline-offset: 5px;
+}
+.group:hover .tile :is(img, video),
+.group:focus-within .tile :is(img, video) {
+  transform: scale(1.13);
+}
+
+/* "Academic & organizational activities" photo strip — a loose, scattered
+   scrapbook feel rather than a uniform card row. Each photo carries a
+   slight rotation and vertical offset (set per-card as --rot/--y custom
+   properties, see PhotoCarousel.tsx) that straightens out on hover. */
+.scrap-card {
+  transform: rotate(var(--rot, 0deg)) translateY(var(--y, 0px));
+  transition: transform 0.4s cubic-bezier(0.2, 0.7, 0.2, 1), box-shadow 0.4s ease;
+  box-shadow: 0 10px 24px -16px color-mix(in srgb, var(--color-ink) 35%, transparent);
+}
+.scrap-card:hover,
+.scrap-card:focus,
+.scrap-card:focus-within {
+  transform: rotate(0deg) translateY(calc(var(--y, 0px) - 8px)) scale(1.035);
+  box-shadow: 0 20px 34px -18px color-mix(in srgb, var(--color-ink) 45%, transparent);
+}
+
+/* Filename-derived caption — hidden until the photo is hovered or
+   keyboard-focused (the card itself is tabbable, see PhotoCarousel.tsx),
+   so it reads as a context label rather than permanent clutter over the
+   photo. */
+.scrap-card .caption {
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+.scrap-card:hover .caption,
+.scrap-card:focus .caption,
+.scrap-card:focus-within .caption {
+  opacity: 1;
+  transform: none;
+}
+
+/* Thin scroll-position rule pinned to the top of the page. */
+.scroll-progress {
+  position: fixed;
+  inset: 0 0 auto 0;
+  height: 2px;
+  z-index: 60;
+  background: var(--color-accent);
+  transform-origin: 0 50%;
+  will-change: transform;
+}
+
+/* Project detail panel */
+.drawer-backdrop {
+  animation: drawer-fade 0.25s ease both;
+}
+.drawer-panel {
+  animation: drawer-slide 0.32s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  box-shadow: -1px 0 0 var(--color-line);
+}
+@keyframes drawer-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes drawer-slide {
+  from { opacity: 0; transform: translateX(18px); }
+  to { opacity: 1; transform: none; }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -119,9 +230,42 @@ body {
   .reveal {
     opacity: 1;
     transform: none;
+    filter: none;
     transition: none;
   }
   .link-underline {
+    transition: none;
+  }
+  .scroll-progress {
+    display: none;
+  }
+  .drawer-backdrop,
+  .drawer-panel {
+    animation: none;
+  }
+  .tile,
+  .tile :is(img, video) {
+    transition: none;
+  }
+  .group:hover .tile,
+  .group:focus-within .tile {
+    transform: none;
+    box-shadow: none;
+  }
+  .group:hover .tile :is(img, video),
+  .group:focus-within .tile :is(img, video) {
+    transform: scale(1.06);
+  }
+  .scrap-card {
+    transition: none;
+  }
+  .scrap-card:hover,
+  .scrap-card:focus,
+  .scrap-card:focus-within {
+    transform: rotate(var(--rot, 0deg)) translateY(var(--y, 0px));
+    box-shadow: 0 10px 24px -16px color-mix(in srgb, var(--color-ink) 35%, transparent);
+  }
+  .scrap-card .caption {
     transition: none;
   }
 }

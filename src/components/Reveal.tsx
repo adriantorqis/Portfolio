@@ -3,13 +3,18 @@
 import { useEffect, useRef } from "react";
 
 /**
- * Fades + rises content into view once. Uses IntersectionObserver rather than
- * a scroll handler so it costs nothing while idle, and unobserves after the
- * first reveal so elements never re-animate on the way back up.
+ * Fades + rises content into view *every* time it enters the viewport, not
+ * just the first time — scrolling back up replays the entrance, so each
+ * section reads as somewhere you arrive at rather than a page you've already
+ * spent.
  *
- * The initial hidden state lives in CSS (.reveal), and the reduced-motion
- * media query neutralises it — so this degrades to "always visible" both for
- * users who ask for less motion and if JS never runs at all.
+ * The two thresholds are deliberate hysteresis: it reveals once 15% is on
+ * screen, but only resets after it has left completely. A single threshold
+ * would flip back and forth while you hover the boundary.
+ *
+ * The hidden state lives in CSS (.reveal), and the reduced-motion media query
+ * neutralises it — so this degrades to "always visible" both for users who
+ * ask for less motion and if JS never runs at all.
  */
 export function Reveal({
   children,
@@ -36,13 +41,14 @@ export function Reveal({
     const observer = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
-          if (entry.isIntersecting) {
+          if (entry.intersectionRatio >= 0.15) {
             el.dataset.visible = "true";
-            observer.unobserve(el);
+          } else if (!entry.isIntersecting) {
+            el.dataset.visible = "false";
           }
         }
       },
-      { rootMargin: "0px 0px -8% 0px", threshold: 0.08 }
+      { threshold: [0, 0.15], rootMargin: "0px 0px -6% 0px" }
     );
 
     observer.observe(el);
