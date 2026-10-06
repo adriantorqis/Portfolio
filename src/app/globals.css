@@ -281,7 +281,7 @@ body {
   transition: opacity 0.5s ease;
   background: radial-gradient(
     420px circle at var(--mx, 50%) var(--my, 50%),
-    rgb(201 162 126 / 0.1),
+    rgb(138 106 79 / 0.1),
     transparent 70%
   );
 }

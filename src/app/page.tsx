@@ -112,11 +112,11 @@ export default async function HomePage() {
 
         {/* ACHIEVEMENTS */}
         {achievements.length ? (
-          <section id="achievements" className="scroll-mt-16 bg-ink-bg py-20 text-bg md:py-28">
+          <section id="achievements" className="scroll-mt-16 border-t border-line py-20 md:py-28">
             <div className="mx-auto max-w-5xl px-6 md:px-12">
               <Reveal className="flex flex-wrap items-end justify-between gap-x-12 gap-y-8">
                 <div>
-                  <p className="eyebrow text-bg/45">Recognition</p>
+                  <p className="eyebrow">Recognition</p>
                   <h2 className="display mt-4 text-3xl md:text-4xl">Achievements</h2>
                 </div>
                 <dl className="flex gap-10 md:gap-14">
@@ -126,7 +126,7 @@ export default async function HomePage() {
                   ].map(({ value, label }) => (
                     <div key={label} className="flex flex-col-reverse">
                       <dt className="eyebrow mt-2 text-bg/45">{label}</dt>
-                      <dd className="display text-4xl text-[#c9a27e] md:text-5xl">
+                      <dd className="display text-4xl text-accent md:text-5xl">
                         {String(value).padStart(2, "0")}
                       </dd>
                     </div>

@@ -27,30 +27,32 @@ export function AchievementList({ achievements }: { achievements: Achievement[] 
     <ol
       ref={listRef}
       onPointerMove={reduced ? undefined : trackPointer}
-      className="achievements-glow relative border-b border-bg/10"
+      className="achievements-glow relative border-b border-line"
     >
       {achievements.map((a, i) => (
         <motion.li
           key={`${a.organizer}-${a.title}-${i}`}
-          className="anim group relative border-t border-bg/10"
-          initial={reduced ? false : { opacity: 0, y: 24, filter: "blur(6px)" }}
-          whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+          className="anim group relative border-t border-line"
+          initial={reduced ? false : "hidden"}
+          whileInView="shown"
+          variants={{
+            hidden: { opacity: 0, y: 24, filter: "blur(6px)" },
+            shown: { opacity: 1, y: 0, filter: "blur(0px)" },
+          }}
           viewport={{ once: false, amount: 0.4 }}
           transition={{ duration: 0.8, ease: EASE, delay: i * 0.07 }}
         >
           {/* Hairline that draws across the top of the row on hover. */}
           <span
             aria-hidden="true"
-            className="absolute -top-px left-0 h-px w-full origin-left scale-x-0 bg-[#c9a27e] transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-x-100 motion-reduce:transition-none"
+            className="absolute -top-px left-0 h-px w-full origin-left scale-x-0 bg-accent transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-x-100 motion-reduce:transition-none"
           />
 
           <div className="grid grid-cols-[5.5rem_1fr] items-center gap-x-6 gap-y-1 py-7 transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-x-2 motion-reduce:transition-none sm:grid-cols-[9rem_1fr_auto] md:grid-cols-[12rem_1fr_auto] md:py-9">
             <span className="block overflow-hidden pb-1">
               <motion.span
-                className="display block whitespace-nowrap text-4xl text-bg transition-colors duration-500 group-hover:text-[#c9a27e] sm:text-5xl md:text-6xl"
-                initial={reduced ? false : { y: "105%" }}
-                whileInView={{ y: "0%" }}
-                viewport={{ once: false, amount: 0.4 }}
+                className="display block whitespace-nowrap text-4xl text-ink transition-colors duration-500 group-hover:text-accent sm:text-5xl md:text-6xl"
+                variants={{ hidden: { y: "105%" }, shown: { y: "0%" } }}
                 transition={{ duration: 0.9, ease: EASE, delay: 0.1 + i * 0.07 }}
               >
                 {a.rank}
@@ -58,11 +60,11 @@ export function AchievementList({ achievements }: { achievements: Achievement[] 
             </span>
 
             <div className="min-w-0">
-              <p className="text-base leading-snug text-bg/90 md:text-lg">{a.title}</p>
-              <p className="mt-1 text-sm text-bg/45">{a.organizer}</p>
+              <p className="text-base leading-snug text-ink md:text-lg">{a.title}</p>
+              <p className="mt-1 text-sm text-muted">{a.organizer}</p>
             </div>
 
-            <span className="col-start-2 text-xs tracking-[0.18em] text-bg/35 sm:col-start-auto sm:text-right">
+            <span className="col-start-2 text-xs tracking-[0.18em] text-muted sm:col-start-auto sm:text-right">
               {a.year ?? ""}
             </span>
           </div>
