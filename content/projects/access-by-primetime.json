@@ -3,11 +3,11 @@
   "title": "ACCESS by PrimeTime",
   "description": "ACCESS aims to empower people with mobility disabilities to confidently navigate public spaces by knowing where they can go, how to get there, when to visit, and what accessibility conditions they can expect along the way. Rather than simply showing accessible places, ACCESS helps users understand the entire journey — from entrances, elevators, ramps, and accessible facilities to real-time conditions — so they can plan ahead, avoid unnecessary barriers, and experience greater independence when moving through the city.",
   "tags": ["product design", "ui/ux", "accessibility", "mobile app"],
-  "featured": true,
+  "featured": false,
   "link_url": "https://www.figma.com/proto/DWXb97kbm3cJl1sSLQjieG/PRIMETIME?node-id=38-1248&p=f&t=3A7YyTLWwyJQmo2H-1&scaling=scale-down&content-scaling=fixed&page-id=1%3A3&starting-point-node-id=38%3A1248&show-proto-sidebar=1",
   "file_path": null,
   "cover_image_path": "/media/projects/access-by-primetime/cover.png",
   "cover_media_kind": "image",
   "cover_poster_path": null,
-  "sort_order": 0
+  "sort_order": 1
 }

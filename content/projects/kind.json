@@ -8,11 +8,11 @@
     "healthtech",
     "mobile app"
   ],
-  "featured": false,
+  "featured": true,
   "link_url": "https://www.figma.com/proto/LgCFrMN0PqIP22sHxfxzAR/ITECHNOCUP-2026-%E2%80%94-Excelsior?node-id=2126-10646&p=f&t=9ZreVv8NzwO5dfVn-1&scaling=min-zoom&content-scaling=fixed&page-id=2056%3A5873&starting-point-node-id=2236%3A16083&show-proto-sidebar=1",
   "file_path": null,
   "cover_image_path": "/media/projects/kind/cover.png",
   "cover_media_kind": "image",
   "cover_poster_path": null,
-  "sort_order": 1
+  "sort_order": 0
 }
