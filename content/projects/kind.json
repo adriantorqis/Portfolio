@@ -2,9 +2,14 @@
   "slug": "kind",
   "title": "KIND",
   "description": "KIND is a dementia-focused app designed to empower caregivers of people living with dementia with the information, monitoring, and assistance they need to provide safer, more informed, and more confident care. By bringing essential caregiving guidance, condition monitoring, and support tools into one place, KIND helps caregivers better understand what is happening, respond to changes earlier, and manage the challenges of dementia without having to navigate them alone.",
-  "tags": ["product design", "ui/ux", "healthtech", "mobile app"],
+  "tags": [
+    "product design",
+    "ui/ux",
+    "healthtech",
+    "mobile app"
+  ],
   "featured": false,
-  "link_url": "https://www.figma.com/proto/LgCFrMN0PqIP22sHxfxzAR/ITECHNOCUP-2026-%E2%80%94-Excelsior?node-id=889-7149&p=f&t=HJ5OXyZkBwqSyHfA-1&scaling=scale-down&content-scaling=fixed&page-id=0%3A1&starting-point-node-id=889%3A7146&show-proto-sidebar=1",
+  "link_url": "https://www.figma.com/proto/LgCFrMN0PqIP22sHxfxzAR/ITECHNOCUP-2026-%E2%80%94-Excelsior?node-id=2126-10646&p=f&t=9ZreVv8NzwO5dfVn-1&scaling=min-zoom&content-scaling=fixed&page-id=2056%3A5873&starting-point-node-id=2236%3A16083&show-proto-sidebar=1",
   "file_path": null,
   "cover_image_path": "/media/projects/kind/cover.png",
   "cover_media_kind": "image",

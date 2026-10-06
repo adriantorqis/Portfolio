@@ -243,7 +243,7 @@ export default async function HomePage() {
                     rel="noreferrer"
                     className="link-underline"
                   >
-                    Résumé
+                    Access my resume
                   </a>
                 ) : null}
                 {profile?.socials
