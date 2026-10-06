@@ -51,3 +51,13 @@ export type Photo = {
   height: number;
   caption: string;
 };
+
+// rank is free text on purpose ("1st", "Top 4", "Top 5%") — it's shown
+// verbatim as the big numeral, so any placement wording works.
+export type Achievement = {
+  rank: string;
+  title: string;
+  organizer: string;
+  year: number | null;
+  sort_order: number;
+};

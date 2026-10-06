@@ -1,7 +1,7 @@
 import { readFileSync, readdirSync } from "node:fs";
 import path from "node:path";
 import { imageSize } from "image-size";
-import type { Photo, Profile, Project, Testimonial } from "./types";
+import type { Achievement, Photo, Profile, Project, Testimonial } from "./types";
 
 // Content lives in /content as hand-edited JSON, read at build time — there
 // is no database and no runtime fetch, so the site is fully static. Uses
@@ -51,6 +51,11 @@ export async function getProfile(): Promise<Profile> {
 
 export async function getTestimonials(): Promise<Testimonial[]> {
   const data = readJson<Testimonial[]>("testimonials.json") ?? [];
+  return [...data].sort((a, b) => (a.sort_order ?? 0) - (b.sort_order ?? 0));
+}
+
+export async function getAchievements(): Promise<Achievement[]> {
+  const data = readJson<Achievement[]>("achievements.json") ?? [];
   return [...data].sort((a, b) => (a.sort_order ?? 0) - (b.sort_order ?? 0));
 }
 

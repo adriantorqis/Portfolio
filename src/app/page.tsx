@@ -1,3 +1,4 @@
+import { AchievementList } from "@/components/AchievementList";
 import { CopyEmail } from "@/components/CopyEmail";
 import { Footer } from "@/components/Footer";
 import { Highlighted } from "@/components/Highlighted";
@@ -7,16 +8,18 @@ import { PhotoPlaceholder } from "@/components/PhotoPlaceholder";
 import { ProjectList } from "@/components/ProjectList";
 import { Reveal } from "@/components/Reveal";
 import { SplitHeadline } from "@/components/SplitHeadline";
-import { getOffTheClockPhotos, getProfile, getProjects, getTestimonials } from "@/lib/content";
+import { getAchievements, getOffTheClockPhotos, getProfile, getProjects, getTestimonials } from "@/lib/content";
 import Image from "next/image";
 
 export default async function HomePage() {
-  const [projects, profile, testimonials, offTheClockPhotos] = await Promise.all([
+  const [projects, profile, testimonials, offTheClockPhotos, achievements] = await Promise.all([
     getProjects(),
     getProfile(),
     getTestimonials(),
     getOffTheClockPhotos(),
+    getAchievements(),
   ]);
+  const firstPlaces = achievements.filter((a) => a.rank.trim().toLowerCase() === "1st").length;
   const heroPhoto = profile.hero_image_path;
   const resumeUrl = profile.resume?.file_path ?? null;
   const bioParagraphs = profile.bio ? profile.bio.split("\n\n") : [];
@@ -47,6 +50,7 @@ export default async function HomePage() {
                   <div className="mt-10 flex flex-wrap gap-x-8 gap-y-3 text-sm">
                     {[
                       { href: "#work", label: "View work" },
+                      ...(achievements.length ? [{ href: "#achievements", label: "Achievements" }] : []),
                       { href: "#about", label: "About" },
                       { href: "#contact", label: "Get in touch" },
                     ].map(({ href, label }) => (
@@ -105,6 +109,36 @@ export default async function HomePage() {
             </div>
           </div>
         </section>
+
+        {/* ACHIEVEMENTS */}
+        {achievements.length ? (
+          <section id="achievements" className="scroll-mt-16 bg-ink-bg py-20 text-bg md:py-28">
+            <div className="mx-auto max-w-5xl px-6 md:px-12">
+              <Reveal className="flex flex-wrap items-end justify-between gap-x-12 gap-y-8">
+                <div>
+                  <p className="eyebrow text-bg/45">Recognition</p>
+                  <h2 className="display mt-4 text-3xl md:text-4xl">Achievements</h2>
+                </div>
+                <dl className="flex gap-10 md:gap-14">
+                  {[
+                    { value: achievements.length, label: "Honours" },
+                    ...(firstPlaces ? [{ value: firstPlaces, label: "First places" }] : []),
+                  ].map(({ value, label }) => (
+                    <div key={label} className="flex flex-col-reverse">
+                      <dt className="eyebrow mt-2 text-bg/45">{label}</dt>
+                      <dd className="display text-4xl text-[#c9a27e] md:text-5xl">
+                        {String(value).padStart(2, "0")}
+                      </dd>
+                    </div>
+                  ))}
+                </dl>
+              </Reveal>
+              <div className="mt-14 md:mt-16">
+                <AchievementList achievements={achievements} />
+              </div>
+            </div>
+          </section>
+        ) : null}
 
         {/* NOW */}
         <section className="border-t border-line py-20 md:py-24">
