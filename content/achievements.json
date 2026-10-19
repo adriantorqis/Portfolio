@@ -55,7 +55,7 @@
     "title": "Sokrates Hackathon — Finalist",
     "organizer": "Sokrates",
     "year": null,
-    "context": "40 finalists from 400 teams",
+    "context": "out of 400 teams",
     "tone": "violet",
     "story": "Selected as one of **40 finalists** out of **400 teams** by developing **SIGAP**, an agentic AI solution designed to improve medicine procurement planning in Indonesian healthcare facilities. The solution integrates demand forecasting, procurement deviation detection, and root-cause diagnosis to identify potential drug shortages, supplier fulfilment issues, and excess inventory. By generating evidence-based corrective recommendations with pharmacist approval, SIGAP aims to improve procurement efficiency, reduce medicine wastage, and strengthen medicine availability.",
     "sort_order": 5
