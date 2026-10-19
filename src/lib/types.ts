@@ -55,11 +55,18 @@ export type Photo = {
 // rank is free text on purpose ("1st", "Top 4", "Top 5%") — it's shown
 // verbatim as the big numeral, so any placement wording works.
 export type Achievement = {
+  // Also the folder name: photos live in public/media/achievements/<slug>/
+  slug: string;
   rank: string;
   title: string;
   organizer: string;
   year: number | null;
   // Optional colour override; otherwise derived from the rank text.
   tone?: "gold" | "silver" | "bronze" | "teal" | "violet";
+  // The story shown when the row is opened; "\n\n" separates paragraphs and
+  // **word** highlights, same as the bio.
+  story: string;
+  // Not in the JSON — filled from the folder at build time.
+  photos: Photo[];
   sort_order: number;
 };

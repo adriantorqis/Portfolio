@@ -55,8 +55,15 @@ export async function getTestimonials(): Promise<Testimonial[]> {
 }
 
 export async function getAchievements(): Promise<Achievement[]> {
-  const data = readJson<Achievement[]>("achievements.json") ?? [];
-  return [...data].sort((a, b) => (a.sort_order ?? 0) - (b.sort_order ?? 0));
+  const data = readJson<Omit<Achievement, "photos">[]>("achievements.json") ?? [];
+  return [...data]
+    .filter((a) => {
+      if (a.slug && a.rank && a.title) return true;
+      console.error("[content] skipping an achievement — needs \"slug\", \"rank\" and \"title\"");
+      return false;
+    })
+    .sort((a, b) => (a.sort_order ?? 0) - (b.sort_order ?? 0))
+    .map((a) => ({ ...a, story: a.story ?? "", photos: readPhotos(`achievements/${a.slug}`) }));
 }
 
 export async function getProjects(): Promise<Project[]> {
@@ -121,7 +128,12 @@ function captionFromFilename(filename: string): string {
 // carousel can size every photo by its own natural aspect ratio instead of
 // forcing one ratio and cropping to fit it.
 export async function getOffTheClockPhotos(): Promise<Photo[]> {
-  const dir = path.join(PUBLIC_DIR, "media", "off-the-clock");
+  return readPhotos("off-the-clock");
+}
+
+// Every image in public/media/<relDir>, sized by its own real dimensions.
+function readPhotos(relDir: string): Photo[] {
+  const dir = path.join(PUBLIC_DIR, "media", relDir);
   let files: string[];
   try {
     files = readdirSync(dir);
@@ -142,14 +154,14 @@ export async function getOffTheClockPhotos(): Promise<Photo[]> {
       // render, not the raw buffer.
       const rotated = orientation !== undefined && orientation >= 5;
       photos.push({
-        src: `/media/off-the-clock/${file}`,
+        src: `/media/${relDir}/${file}`,
         width: rotated ? height : width,
         height: rotated ? width : height,
         caption: captionFromFilename(file),
       });
     } catch (err) {
       console.error(
-        `[content] couldn't read dimensions for off-the-clock/${file}, skipping:`,
+        `[content] couldn't read dimensions for ${relDir}/${file}, skipping:`,
         err instanceof Error ? err.message : err
       );
     }

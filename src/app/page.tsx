@@ -19,7 +19,6 @@ export default async function HomePage() {
     getOffTheClockPhotos(),
     getAchievements(),
   ]);
-  const firstPlaces = achievements.filter((a) => a.rank.trim().toLowerCase() === "1st").length;
   const heroPhoto = profile.hero_image_path;
   const resumeUrl = profile.resume?.file_path ?? null;
   const bioParagraphs = profile.bio ? profile.bio.split("\n\n") : [];
@@ -117,20 +116,13 @@ export default async function HomePage() {
               <Reveal className="flex flex-wrap items-end justify-between gap-x-12 gap-y-8">
                 <div>
                   <p className="eyebrow">Recognition</p>
-                  <h2 className="display mt-4 text-3xl md:text-4xl">Achievements</h2>
+                  <h2 className="display mt-4 text-3xl md:text-4xl">Achievements &amp; Competitions</h2>
                 </div>
-                <dl className="flex gap-10 md:gap-14">
-                  {[
-                    { value: achievements.length, label: "Honours" },
-                    ...(firstPlaces ? [{ value: firstPlaces, label: "First places" }] : []),
-                  ].map(({ value, label }) => (
-                    <div key={label} className="flex flex-col-reverse">
-                      <dt className="eyebrow mt-2 text-bg/45">{label}</dt>
-                      <dd className="display text-4xl text-accent md:text-5xl">
-                        {String(value).padStart(2, "0")}
-                      </dd>
-                    </div>
-                  ))}
+                <dl className="flex flex-col-reverse">
+                  <dt className="eyebrow mt-2">Honours</dt>
+                  <dd className="display text-4xl text-accent md:text-5xl">
+                    {String(achievements.length).padStart(2, "0")}
+                  </dd>
                 </dl>
               </Reveal>
               <div className="mt-14 md:mt-16">

@@ -92,3 +92,18 @@ right next to the code, there's nothing to keep paid/awake/patched, and
 "add a project" is one new file. If editing raw JSON ever gets annoying,
 the natural upgrade is a local script that scaffolds a new project file
 from a few prompts — ask for that if you want it.
+
+## Achievements
+
+`content/achievements.json` is an array — each entry is a row in the
+"Achievements & Competitions" section, and clicking it opens its story:
+
+```json
+{ "slug": "ittoday", "rank": "1st", "title": "UI/UX Competition", "organizer": "ITTODAY", "year": 2026, "story": "Paragraph with a **highlight**.\n\nSecond paragraph.", "sort_order": 1 }
+```
+
+Photo proof: drop any images in `public/media/achievements/<slug>/` — no JSON
+entry needed. The layout adapts to however many are in the folder (1 photo is
+full width, 3 is one big + two, more wrap into balanced rows), and each file
+name becomes its hover caption. Optional `"tone"`: `gold`, `silver`, `bronze`,
+`teal` or `violet` overrides the colour derived from the rank.
