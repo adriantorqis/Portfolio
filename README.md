@@ -25,7 +25,7 @@ Open [http://localhost:3000](http://localhost:3000).
   at build time, there's no runtime data fetching)
 - **Tailwind CSS v4** for styling, design tokens in `src/app/globals.css`
 - **[Motion](https://motion.dev)** for the card/hero/scroll animations
-- **Fraunces** (display) + **Inter** (body) via `next/font/google`
+- **Plus Jakarta Sans** (display, via `next/font/google`) + **SF Pro** (body, via the system font stack — Apple-only, so other platforms fall back to Helvetica Neue/Arial)
 
 ## Deploying
 

@@ -1,18 +1,15 @@
 import type { Metadata } from "next";
-import { Fraunces, Inter } from "next/font/google";
+import { Plus_Jakarta_Sans } from "next/font/google";
 import { ScrollProgress } from "@/components/ScrollProgress";
 import "./globals.css";
 
-// Fraunces carries real optical sizing, so the display face stays refined at
-// hero scale instead of looking like body copy blown up.
-const fraunces = Fraunces({
-  variable: "--font-fraunces",
-  subsets: ["latin"],
-  axes: ["SOFT", "WONK", "opsz"],
-});
-
-const inter = Inter({
-  variable: "--font-inter",
+// Headings use Plus Jakarta Sans. Body copy uses SF Pro, which Apple only
+// licenses for Apple platforms and so can't be self-hosted or loaded from
+// Google Fonts — it's reached through the system font stack in globals.css
+// (-apple-system resolves to SF Pro on macOS/iOS), falling back to the
+// closest neutral sans elsewhere.
+const jakarta = Plus_Jakarta_Sans({
+  variable: "--font-jakarta",
   subsets: ["latin"],
 });
 
@@ -23,7 +20,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={`${fraunces.variable} ${inter.variable} h-full`}>
+    <html lang="en" className={`${jakarta.variable} h-full`}>
       <head>
         {/* Reveals start hidden and are switched on by JS — CSS ones via
             .reveal, Motion ones via inline styles it server-renders. Either
