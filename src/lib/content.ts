@@ -1,7 +1,7 @@
 import { readFileSync, readdirSync } from "node:fs";
 import path from "node:path";
 import { imageSize } from "image-size";
-import type { Achievement, Photo, Profile, Project, Testimonial } from "./types";
+import type { Achievement, Certificate, Photo, Profile, Project, Testimonial } from "./types";
 
 // Content lives in /content as hand-edited JSON, read at build time — there
 // is no database and no runtime fetch, so the site is fully static. Uses
@@ -114,6 +114,12 @@ export async function getProjects(): Promise<Project[]> {
 function captionFromFilename(filename: string): string {
   const withoutExt = filename.replace(/\.[^.]+$/, "");
   const withoutOrderPrefix = withoutExt.replace(/^\d+[\s._-]+/, "");
+  // Camera/phone/screenshot defaults ("Screenshot 2026-10-19 at 12.05.46",
+  // "WhatsApp Image …", "IMG_1234") make for meaningless captions — show none
+  // until the file is given a real name.
+  if (/^(screenshot|screen shot|whatsapp|img[ _-]?\d|dsc[ _-]?\d|photo[ _-]?\d)/i.test(withoutOrderPrefix)) {
+    return "";
+  }
   return withoutOrderPrefix.replace(/[_-]+/g, " ").replace(/\s+/g, " ").trim();
 }
 
@@ -168,4 +174,54 @@ function readPhotos(relDir: string): Photo[] {
   }
 
   return photos.sort((a, b) => a.src.localeCompare(b.src, undefined, { numeric: true }));
+}
+
+function metaContent(html: string, property: string): string | null {
+  const tag = html.match(new RegExp(`<meta[^>]*property="${property}"[^>]*>`, "i"))?.[0];
+  const value = tag?.match(/content="([^"]*)"/i)?.[1];
+  return value
+    ? value.replace(/&amp;/g, "&").replace(/&quot;/g, '"').replace(/&#39;|&#x27;/g, "'")
+    : null;
+}
+
+// content/certificates.json is just a list of Credly links. The title,
+// issuer and badge image come from each page's Open Graph tags, fetched once
+// at build time — so the site stays static and a new certificate is one pasted
+// link. If Credly is unreachable the build still succeeds and that card
+// falls back to a plain link.
+export async function getCertificates(): Promise<Certificate[]> {
+  const data = readJson<{ url: string; sort_order?: number }[]>("certificates.json") ?? [];
+  const sorted = [...data]
+    .filter((c) => c.url)
+    .sort((a, b) => (a.sort_order ?? 0) - (b.sort_order ?? 0));
+
+  return Promise.all(
+    sorted.map(async ({ url }): Promise<Certificate> => {
+      const empty = { url, title: null, issuer: null, description: null, image: null };
+      try {
+        const res = await fetch(url, {
+          headers: { "user-agent": "Mozilla/5.0 (compatible; PortfolioBuild/1.0)" },
+          signal: AbortSignal.timeout(15000),
+        });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const html = await res.text();
+        const ogTitle = metaContent(html, "og:title");
+        // "<Badge> was issued by <Issuer> to <Person>."
+        const parts = ogTitle?.match(/^(.*) was issued by (.*) to .*?\.?$/);
+        return {
+          url,
+          title: parts?.[1] ?? ogTitle,
+          issuer: parts?.[2] ?? null,
+          description: metaContent(html, "og:description"),
+          image: metaContent(html, "og:image"),
+        };
+      } catch (err) {
+        console.error(
+          `[content] couldn't read Credly badge ${url}:`,
+          err instanceof Error ? err.message : err
+        );
+        return empty;
+      }
+    })
+  );
 }

@@ -1,4 +1,5 @@
 import { AchievementList } from "@/components/AchievementList";
+import { CertificateCard } from "@/components/CertificateCard";
 import { CopyEmail } from "@/components/CopyEmail";
 import { Footer } from "@/components/Footer";
 import { Highlighted } from "@/components/Highlighted";
@@ -8,16 +9,17 @@ import { PhotoPlaceholder } from "@/components/PhotoPlaceholder";
 import { ProjectList } from "@/components/ProjectList";
 import { Reveal } from "@/components/Reveal";
 import { SplitHeadline } from "@/components/SplitHeadline";
-import { getAchievements, getOffTheClockPhotos, getProfile, getProjects, getTestimonials } from "@/lib/content";
+import { getAchievements, getCertificates, getOffTheClockPhotos, getProfile, getProjects, getTestimonials } from "@/lib/content";
 import Image from "next/image";
 
 export default async function HomePage() {
-  const [projects, profile, testimonials, offTheClockPhotos, achievements] = await Promise.all([
+  const [projects, profile, testimonials, offTheClockPhotos, achievements, certificates] = await Promise.all([
     getProjects(),
     getProfile(),
     getTestimonials(),
     getOffTheClockPhotos(),
     getAchievements(),
+    getCertificates(),
   ]);
   const heroPhoto = profile.hero_image_path;
   const resumeUrl = profile.resume?.file_path ?? null;
@@ -127,6 +129,25 @@ export default async function HomePage() {
               </Reveal>
               <div className="mt-14 md:mt-16">
                 <AchievementList achievements={achievements} />
+              </div>
+            </div>
+          </section>
+        ) : null}
+
+        {/* CERTIFICATIONS */}
+        {certificates.length ? (
+          <section id="certifications" className="scroll-mt-16 border-t border-line py-20 md:py-28">
+            <div className="mx-auto max-w-5xl px-6 md:px-12">
+              <Reveal>
+                <p className="eyebrow">Credentials</p>
+                <h2 className="display mt-4 text-3xl md:text-4xl">Certifications</h2>
+              </Reveal>
+              <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+                {certificates.map((cert, i) => (
+                  <Reveal key={cert.url} delay={i * 90}>
+                    <CertificateCard cert={cert} />
+                  </Reveal>
+                ))}
               </div>
             </div>
           </section>

@@ -70,3 +70,14 @@ export type Achievement = {
   photos: Photo[];
   sort_order: number;
 };
+
+// Filled at build time from the Credly badge page's own metadata — the JSON
+// only holds the link. title/issuer/image fall back to null if Credly can't
+// be reached, and the card still renders as a plain link.
+export type Certificate = {
+  url: string;
+  title: string | null;
+  issuer: string | null;
+  description: string | null;
+  image: string | null;
+};

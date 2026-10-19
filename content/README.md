@@ -107,3 +107,15 @@ entry needed. The layout adapts to however many are in the folder (1 photo is
 full width, 3 is one big + two, more wrap into balanced rows), and each file
 name becomes its hover caption. Optional `"tone"`: `gold`, `silver`, `bronze`,
 `teal` or `violet` overrides the colour derived from the rank.
+
+## Certifications
+
+`content/certificates.json` is just a list of Credly public links:
+
+```json
+{ "url": "https://www.credly.com/badges/<id>/public_url", "sort_order": 2 }
+```
+
+The title, issuer and badge image are read from each Credly page when the site
+builds, so adding one is pasting a link and pushing. (If Credly can't be
+reached during a build, that card falls back to a plain link.)

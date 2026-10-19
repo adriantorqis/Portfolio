@@ -292,3 +292,24 @@ body {
     display: none;
   }
 }
+
+/* Certificate cards: soft lift + accent outline on hover/focus. */
+.cert-card {
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease,
+    box-shadow 0.5s ease;
+}
+.cert-card:hover,
+.cert-card:focus-visible {
+  transform: translateY(-4px);
+  border-color: var(--color-accent);
+  box-shadow: 0 18px 40px -22px rgb(27 26 23 / 0.35);
+}
+@media (prefers-reduced-motion: reduce) {
+  .cert-card {
+    transition: none;
+  }
+  .cert-card:hover,
+  .cert-card:focus-visible {
+    transform: none;
+  }
+}
