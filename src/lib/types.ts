@@ -59,5 +59,7 @@ export type Achievement = {
   title: string;
   organizer: string;
   year: number | null;
+  // Optional colour override; otherwise derived from the rank text.
+  tone?: "gold" | "silver" | "bronze" | "teal" | "violet";
   sort_order: number;
 };
