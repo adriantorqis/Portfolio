@@ -89,6 +89,12 @@ export function AchievementDetail({
             {achievement.year ? ` · ${achievement.year}` : ""}
           </p>
 
+          {achievement.context ? (
+            <p className="mt-4 inline-block rounded-full border border-[var(--tone-lo)]/30 px-3 py-1 text-xs font-medium text-[var(--tone-lo)]">
+              {achievement.rank} {achievement.context}
+            </p>
+          ) : null}
+
           {paragraphs.length ? (
             <div className="mt-8 space-y-5 leading-relaxed text-muted">
               {paragraphs.map((para, i) => (

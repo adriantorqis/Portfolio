@@ -80,6 +80,11 @@ export function AchievementList({ achievements }: { achievements: Achievement[] 
             <div className="min-w-0 transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-x-2 motion-reduce:transition-none">
               <p className="text-base leading-snug text-ink md:text-lg">{a.title}</p>
               <p className="mt-1 text-sm text-muted">{a.organizer}</p>
+              {a.context ? (
+                <p className="mt-2 inline-block rounded-full border border-[var(--tone-lo)]/30 px-3 py-0.5 text-xs font-medium text-[var(--tone-lo)]">
+                  {a.context}
+                </p>
+              ) : null}
             </div>
 
             <span className="col-start-2 flex items-center gap-4 text-xs tracking-[0.18em] text-muted sm:col-start-auto sm:justify-end">

@@ -61,6 +61,8 @@ export type Achievement = {
   title: string;
   organizer: string;
   year: number | null;
+  // Optional scale line, e.g. "out of 150+ participants" — shown under the title.
+  context?: string;
   // Optional colour override; otherwise derived from the rank text.
   tone?: "gold" | "silver" | "bronze" | "teal" | "violet";
   // The story shown when the row is opened; "\n\n" separates paragraphs and

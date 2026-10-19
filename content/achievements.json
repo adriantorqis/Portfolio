@@ -14,7 +14,8 @@
     "title": "UI/UX Competition",
     "organizer": "ITTODAY",
     "year": 2026,
-    "story": "Achieved **1st Place** in a UI/UX competition with **Nurture**, an application designed to address postpartum depression by promoting better coordination between partners and supporting parental emotional well-being through mood analysis and shared caregiving.",
+    "context": "out of 150+ participants",
+    "story": "Won **1st Place** out of **150+ participants** in the ITTODAY UI/UX competition with **Nurture**, an application designed to address postpartum depression by promoting better coordination between partners and supporting parental emotional well-being through mood analysis and shared caregiving.",
     "sort_order": 1
   },
   {
@@ -23,7 +24,8 @@
     "title": "UI/UX Competition",
     "organizer": "ISFEST",
     "year": 2026,
-    "story": "Achieved **2nd Place** in a UI/UX competition with **SAUL (Spending Awareness and Understanding Loop)**, an adaptive financial wellness platform designed to help young adults build healthier spending habits through behavioral insights, personalized guidance, and smarter financial decision-making.",
+    "context": "out of 120+ participants",
+    "story": "Placed **2nd** out of **120+ participants** in the ISFEST UI/UX competition with **SAUL (Spending Awareness and Understanding Loop)**, an adaptive financial wellness platform designed to help young adults build healthier spending habits through behavioral insights, personalized guidance, and smarter financial decision-making.",
     "sort_order": 2
   },
   {
@@ -32,7 +34,8 @@
     "title": "UI/UX Competition",
     "organizer": "Switchfest",
     "year": 2026,
-    "story": "Achieved **1st Place** in a UI/UX competition with **Growey**, a parenting support application designed to help busy parents and nannies monitor children's development, encourage early literacy, and support healthy growth through smart reminders, educational features, and collaborative childcare management.",
+    "context": "out of 180+ participants",
+    "story": "Won **1st Place** out of **180+ participants** in the Switchfest UI/UX competition with **Growey**, a parenting support application designed to help busy parents and nannies monitor children's development, encourage early literacy, and support healthy growth through smart reminders, educational features, and collaborative childcare management.",
     "sort_order": 3
   },
   {
@@ -41,8 +44,9 @@
     "title": "International UI/UX Competition",
     "organizer": "ITECHNO CUP",
     "year": 2026,
+    "context": "out of 90+ participants",
     "tone": "bronze",
-    "story": "Achieved **4th Place** at iTechno with **KIND (Clear Insights for Confident Dementia Care)**, a caregiver-focused application designed to support families caring for people living with dementia through coordinated caregiving, AI-assisted care guidance, behavioral monitoring, and shared family responsibilities.",
+    "story": "Finished **4th** out of **90+ participants** at iTechno with **KIND (Clear Insights for Confident Dementia Care)**, a caregiver-focused application designed to support families caring for people living with dementia through coordinated caregiving, AI-assisted care guidance, behavioral monitoring, and shared family responsibilities.",
     "sort_order": 4
   },
   {
@@ -51,8 +55,9 @@
     "title": "Sokrates Hackathon — Finalist",
     "organizer": "Sokrates",
     "year": null,
+    "context": "40 finalists from 400 teams",
     "tone": "violet",
-    "story": "One of **40 finalists**, by developing **SIGAP**, an agentic AI solution designed to improve medicine procurement planning in Indonesian healthcare facilities. The solution integrates demand forecasting, procurement deviation detection, and root-cause diagnosis to identify potential drug shortages, supplier fulfilment issues, and excess inventory. By generating evidence-based corrective recommendations with pharmacist approval, SIGAP aims to improve procurement efficiency, reduce medicine wastage, and strengthen medicine availability.",
+    "story": "Selected as one of **40 finalists** out of **400 teams** by developing **SIGAP**, an agentic AI solution designed to improve medicine procurement planning in Indonesian healthcare facilities. The solution integrates demand forecasting, procurement deviation detection, and root-cause diagnosis to identify potential drug shortages, supplier fulfilment issues, and excess inventory. By generating evidence-based corrective recommendations with pharmacist approval, SIGAP aims to improve procurement efficiency, reduce medicine wastage, and strengthen medicine availability.",
     "sort_order": 5
   }
 ]
