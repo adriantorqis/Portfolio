@@ -1,10 +1,7 @@
 [
   "Figma",
-  {
-    "name": "AWS",
-    "abbr": "aws",
-    "color": "#232F3E"
-  },
+  "AWS",
+  "Oracle",
   "SAP",
   "Python",
   "PHP",
@@ -12,29 +9,14 @@
   "HTML",
   "CSS",
   "JavaScript",
-  {
-    "name": "Microsoft Excel",
-    "abbr": "X",
-    "color": "#217346"
-  },
-  {
-    "name": "Microsoft Word",
-    "abbr": "W",
-    "color": "#2B579A"
-  },
+  "Microsoft Excel",
+  "Microsoft Word",
   {
     "name": "Adobe Photoshop",
     "abbr": "Ps",
     "color": "#001E36"
   },
-  {
-    "name": "Adobe Premiere Pro",
-    "abbr": "Pr",
-    "color": "#00005B"
-  },
-  {
-    "name": "Adobe After Effects",
-    "abbr": "Ae",
-    "color": "#00005B"
-  }
+  "Adobe Premiere Pro",
+  "Adobe After Effects",
+  "Adobe Illustrator"
 ]
