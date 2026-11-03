@@ -1,66 +1,60 @@
+"use client";
+
+import { useState } from "react";
 import type { Experience } from "@/lib/types";
-import { Gallery } from "./Gallery";
+import { ExperienceDetail } from "./ExperienceDetail";
 import { Reveal } from "./Reveal";
 
-// One block per role: period, role and organisation, what was done, an
-// optional titled group (e.g. courses taught), and whatever photos are in
-// public/media/experiences/<slug>/ beside it. Without photos the text simply
-// takes the full width.
+// Grouped by category (in the order they first appear in the JSON), one row
+// per role. Each row opens the full story + photos in a side panel, the
+// same pattern as projects and achievements.
 export function ExperienceList({ experiences }: { experiences: Experience[] }) {
+  const [open, setOpen] = useState<Experience | null>(null);
+  const groups = [...new Set(experiences.map((e) => e.category))].map((category) => ({
+    category,
+    items: experiences.filter((e) => e.category === category),
+  }));
+
   return (
-    <ol className="space-y-16 md:space-y-20">
-      {experiences.map((exp) => {
-        const hasPhotos = exp.photos.length > 0;
-        return (
-          <Reveal as="li" key={exp.slug}>
-            <div
-              className={`grid gap-8 md:gap-12 ${hasPhotos ? "md:grid-cols-[1fr_1.1fr]" : ""}`}
-            >
-              <div className="min-w-0">
-                {exp.period ? (
-                  <p className="text-sm italic text-muted">{exp.period}</p>
-                ) : null}
-                <h3 className="display mt-3 text-2xl md:text-3xl">{exp.role}</h3>
-                {exp.organization ? (
-                  <p className="mt-2 text-lg text-accent">{exp.organization}</p>
-                ) : null}
-                {exp.bullets.length ? (
-                  <ul className="mt-6 space-y-2.5 leading-relaxed text-muted">
-                    {exp.bullets.map((b) => (
-                      <li key={b} className="flex gap-3">
-                        <span aria-hidden="true" className="mt-2.5 h-1 w-1 shrink-0 rounded-full bg-accent" />
-                        <span>{b}</span>
-                      </li>
-                    ))}
-                  </ul>
-                ) : null}
-              </div>
-
-              {hasPhotos ? (
-                <div className="min-w-0">
-                  <Gallery photos={exp.photos} rowHeight={200} />
-                </div>
-              ) : null}
-            </div>
-
-            {exp.highlights.length ? (
-              <div className="mt-10">
-                {exp.highlights_title ? <p className="eyebrow">{exp.highlights_title}</p> : null}
-                <ul className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-                  {exp.highlights.map((h) => (
-                    <li
-                      key={h}
-                      className="rounded-xl border border-line px-5 py-4 font-medium text-accent"
-                    >
-                      {h}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ) : null}
+    <div className="space-y-16">
+      {groups.map(({ category, items }) => (
+        <div key={category}>
+          <Reveal>
+            <p className="eyebrow">{category}</p>
           </Reveal>
-        );
-      })}
-    </ol>
+          <ol className="mt-5 border-b border-line">
+            {items.map((exp, i) => (
+              <Reveal as="li" key={exp.slug} delay={i * 50} className="border-t border-line">
+                <button
+                  type="button"
+                  onClick={() => setOpen(exp)}
+                  aria-label={`Open details: ${exp.role}${exp.organization ? `, ${exp.organization}` : ""}`}
+                  className="group grid w-full cursor-pointer grid-cols-[1fr_auto] items-center gap-x-6 gap-y-1 py-6 text-left md:grid-cols-[11rem_1fr_auto] md:py-7"
+                >
+                  <span className="text-sm italic text-muted md:row-auto">{exp.period}</span>
+                  <span className="col-start-1 min-w-0 transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-x-1.5 motion-reduce:transition-none md:col-start-2 md:row-start-1">
+                    <span className="display block text-lg leading-snug md:text-xl">{exp.role}</span>
+                    {exp.organization ? (
+                      <span className="mt-1 block text-sm text-accent">{exp.organization}</span>
+                    ) : null}
+                    {exp.summary ? (
+                      <span className="mt-1.5 block text-sm text-muted">{exp.summary}</span>
+                    ) : null}
+                  </span>
+                  <span
+                    aria-hidden="true"
+                    className="col-start-2 row-span-2 row-start-1 flex h-8 w-8 items-center justify-center rounded-full border border-line text-sm transition-all duration-500 group-hover:border-ink group-hover:bg-ink group-hover:text-bg md:col-start-3 md:row-span-1"
+                  >
+                    <span className="transition-transform duration-500 group-hover:rotate-45">+</span>
+                  </span>
+                </button>
+              </Reveal>
+            ))}
+          </ol>
+        </div>
+      ))}
+
+      {open ? <ExperienceDetail experience={open} onClose={() => setOpen(null)} /> : null}
+    </div>
   );
 }

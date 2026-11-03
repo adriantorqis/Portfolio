@@ -1,0 +1,23 @@
+{
+  "slug": "bacara",
+  "title": "Bacara",
+  "subtitle": "Adaptive Reading Companion",
+  "award": null,
+  "description": "Bacara is an AI-powered assistive reading ecosystem designed to help children with **dyslexia** access and understand conventional learning materials more independently.\n\nThe concept combines **Computer Vision** and **OCR** to transform printed textbooks and worksheets into customizable digital reading experiences. Through adjustable typography, personalized text layouts, and **Text-to-Speech**, children can interact with written content in ways that accommodate their individual reading preferences.\n\nBeyond accessibility, the platform introduces an **interactive AI companion** that supports children throughout their reading journey. Through contextual reading assistance, educational mini-games, and a gamified progression system, the companion grows alongside the child — turning everyday reading into a more engaging experience.\n\nThe ecosystem also explores optional **Smart Glasses** integration, enabling hands-free text capture, voice interaction, and audio-assisted reading.",
+  "tags": [
+    "product design",
+    "ui/ux",
+    "edtech",
+    "ai"
+  ],
+  "featured": false,
+  "link_url": null,
+  "file_path": null,
+  "cover_image_path": null,
+  "cover_media_kind": "image",
+  "cover_poster_path": null,
+  "role": [],
+  "tools": [],
+  "links": [],
+  "sort_order": 7
+}

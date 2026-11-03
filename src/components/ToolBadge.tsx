@@ -20,10 +20,15 @@ export function ToolIcon({ tool, size = 44 }: { tool: Tool; size?: number }) {
   return (
     <span
       aria-hidden="true"
-      className="display flex items-center justify-center rounded-xl bg-ink text-bg"
-      style={{ width: size, height: size, fontSize: size * 0.38 }}
+      className="display flex items-center justify-center rounded-[22%] text-bg"
+      style={{
+        width: size,
+        height: size,
+        fontSize: size * ((tool.abbr ?? "").length > 2 ? 0.3 : 0.42),
+        background: tool.color ?? "var(--color-ink)",
+      }}
     >
-      {tool.name.slice(0, 2)}
+      {tool.abbr ?? tool.name.slice(0, 2)}
     </span>
   );
 }

@@ -1,0 +1,25 @@
+{
+  "slug": "we-are-okay",
+  "title": "We Are Okay",
+  "subtitle": "A Digital Mental Health & Emotional Wellness Ecosystem",
+  "award": null,
+  "description": "We Are Okay is a digital mental health platform that helps people develop **emotional self-awareness**, manage everyday stress, and access **immediate emotional support** through one integrated mobile experience.\n\n## Project type\n\nProduct Management · UI/UX Design · AI Integration · Agile Project Management — developed with **Scrum**.\n\n## Overview\n\nThe platform combines daily emotional check-ins, guided grounding exercises, and reflective journaling to help users recognize their emotional patterns and manage moments of distress. Its **AI-powered emotional support chatbot** gives empathetic, contextual responses and suggests practical grounding techniques based on what the user is going through.\n\nFor users who want to understand themselves more deeply, the proposed premium experience adds weekly and monthly mood analytics, personalized AI insights drawn from mood and journaling history, and access to a professional consultation session.\n\n## Key product capabilities\n\n- **Daily emotional check-in:** record emotional states through mood selection and a 1–5 intensity scale, building a consistent self-awareness habit.\n- **Mood analytics:** visualize weekly and monthly emotional patterns with analytics and personalized insights.\n- **Guided grounding exercises:** breathing exercises and established grounding techniques, including the 5-4-3-2-1 method.\n- **Reflective journaling:** a simple writing space with automatic saving and journaling history.\n- **AI emotional support:** a chatbot that offers contextual responses, emotional support, and relevant grounding suggestions.\n- **Personalized AI insights:** connects mood and journal history for more contextual reflections (premium).\n- **Professional consultation:** a proposed consultation booking feature with an introductory session (premium).\n- **Engagement & reminders:** configurable notifications and calming visual interactions that encourage consistent self-reflection.\n\n## My role & execution\n\nAs **Product Owner**, I defined the product direction, prioritized the product backlog, set feature requirements and acceptance criteria, and evaluated sprint deliverables based on business and user value.\n\nThe project ran on an **eight-week sprint plan** — backlog prioritization, user flow design, paper prototyping, UI/UX development, system architecture, core feature development, AI integration, and quality assurance — and included a project charter, work breakdown structure (WBS), sprint planning, critical path analysis, financial projections, and risk management.\n\n## Objective\n\nTo explore an accessible digital wellness ecosystem that bridges everyday emotional self-reflection with immediate self-regulation tools and pathways toward professional support — helping people build a more consistent, informed approach to their emotional well-being.",
+  "tags": [
+    "product management",
+    "ui/ux",
+    "ai",
+    "mental health"
+  ],
+  "featured": false,
+  "link_url": null,
+  "file_path": null,
+  "cover_image_path": null,
+  "cover_media_kind": "image",
+  "cover_poster_path": null,
+  "role": [
+    "Product Owner"
+  ],
+  "tools": [],
+  "links": [],
+  "sort_order": 9
+}

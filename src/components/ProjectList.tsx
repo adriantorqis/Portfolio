@@ -2,6 +2,7 @@
 
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { useMemo, useState } from "react";
+import { plainSummary } from "@/lib/rich-text";
 import type { Project, Tool } from "@/lib/types";
 import { ProjectDetail } from "./ProjectDetail";
 import { ProjectMedia } from "./ProjectMedia";
@@ -125,7 +126,7 @@ export function ProjectList({ projects, tools }: { projects: Project[]; tools: T
                   ) : null}
 
                   <p className="mt-2.5 line-clamp-2 text-sm leading-relaxed text-muted">
-                    {project.description}
+                    {project.subtitle || plainSummary(project.description)}
                   </p>
 
                   <div className="mt-3.5 flex flex-wrap items-center gap-x-4 gap-y-2 text-xs">

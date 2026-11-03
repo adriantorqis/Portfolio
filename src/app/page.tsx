@@ -56,6 +56,7 @@ export default async function HomePage() {
                     {[
                       { href: "#work", label: "View work" },
                       ...(achievements.length ? [{ href: "#achievements", label: "Achievements" }] : []),
+                      ...(experiences.length ? [{ href: "#experience", label: "Experience" }] : []),
                       { href: "#about", label: "About" },
                       { href: "#contact", label: "Get in touch" },
                     ].map(({ href, label }) => (
@@ -144,7 +145,7 @@ export default async function HomePage() {
             <div className="mx-auto max-w-5xl px-6 md:px-12">
               <Reveal>
                 <p className="eyebrow">Experience</p>
-                <h2 className="display mt-4 text-3xl md:text-4xl">Experiences</h2>
+                <h2 className="display mt-4 text-3xl md:text-4xl">Experience &amp; Education</h2>
               </Reveal>
               <div className="mt-14">
                 <ExperienceList experiences={experiences} />

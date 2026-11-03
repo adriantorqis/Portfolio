@@ -146,14 +146,18 @@ up; without one a monogram tile is shown. Project `tools` reuse these logos.
 
 ## Experiences
 
-`content/experiences.json` — one entry per role:
+`content/experiences.json` — one entry per role. Rows are grouped by
+`category`, and clicking a row opens its story and photos:
 
 ```json
 {
   "slug": "lab-assistant",
+  "category": "Work",
   "role": "Laboratory Assistant",
   "organization": "Information Systems Laboratory",
   "period": "January 2026 – Present",
+  "summary": "One line shown on the row",
+  "story": "The personal write-up. **bold** works, blank line = new paragraph.",
   "bullets": ["Taught 4 classes…", "Evaluated assignments…"],
   "highlights_title": "Courses taught",
   "highlights": ["Database Fundamentals", "System Analysis and Design"],
@@ -163,3 +167,14 @@ up; without one a monogram tile is shown. Project `tools` reuse these logos.
 
 Photos go in `public/media/experiences/<slug>/` and appear beside the text
 (same auto layout as project screenshots).
+
+## Long descriptions
+
+Project `description` and experience `story` support light markup — a block
+starting with `## ` is a heading, a block of lines starting with `- ` is a
+list, and `**text**` is bold. Separate blocks with a blank line. The project
+card shows `subtitle` (or the first paragraph) as its teaser.
+
+A project's cover is picked up automatically from
+`public/media/projects/<slug>/cover.png` (or .jpg/.webp/.gif/.mp4) — no
+`cover_image_path` needed.

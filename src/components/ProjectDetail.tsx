@@ -5,6 +5,7 @@ import type { Project, Tool } from "@/lib/types";
 import { useModalDrawer } from "@/lib/useModalDrawer";
 import { Gallery } from "./Gallery";
 import { ProjectMedia } from "./ProjectMedia";
+import { RichText } from "./RichText";
 import { ToolChip } from "./ToolBadge";
 
 // The card truncates its description to three lines, which until now was a
@@ -88,6 +89,10 @@ export function ProjectDetail({
             {project.title}
           </h2>
 
+          {project.subtitle ? (
+            <p className="mt-3 text-lg text-muted md:text-xl">{project.subtitle}</p>
+          ) : null}
+
           {project.award ? (
             <p className="mt-3 text-lg text-accent md:text-xl">{project.award}</p>
           ) : null}
@@ -104,14 +109,7 @@ export function ProjectDetail({
 
           <div className="mt-10 grid gap-10 md:grid-cols-[1fr_15rem]">
             {project.description ? (
-              <div className="space-y-5 leading-relaxed text-muted">
-                {project.description.split("\n\n").map((para, i) => (
-                  <p key={i} className="whitespace-pre-line">
-                    {para}
-                  </p>
-                ))}
-              </div>
-            ) : (
+              <RichText source={project.description} />            ) : (
               <div />
             )}
 
@@ -138,6 +136,8 @@ export function ProjectDetail({
                           tools.find((t) => t.name.toLowerCase() === name.toLowerCase()) ?? {
                             name,
                             icon: null,
+                            abbr: null,
+                            color: null,
                           }
                         }
                       />

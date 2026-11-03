@@ -16,6 +16,7 @@ export type Project = {
   file_path: string | null;
   sort_order: number;
   // Case-study context, all optional in the JSON.
+  subtitle: string | null; // a one-line "what it is", shown under the title
   award: string | null; // e.g. "1st Place — ITTODAY UI/UX Competition 2026"
   role: string[];
   tools: string[];
@@ -98,13 +99,23 @@ export type Certificate = {
 export type Tool = {
   name: string;
   icon: string | null;
+  // Used for the monogram tile when there's no icon file.
+  abbr: string | null;
+  color: string | null;
 };
 
 export type Experience = {
   slug: string;
+  // Groups the list: e.g. "Work", "Organization & Academic", "Education".
+  category: string;
   role: string;
   organization: string;
   period: string;
+  // One line on the list row.
+  summary: string;
+  // The longer, personal write-up shown when the row is opened. Supports the
+  // same light markup as project descriptions (see lib/rich-text.ts).
+  story: string;
   bullets: string[];
   // An optional titled group of chips, e.g. "Courses taught".
   highlights_title: string | null;

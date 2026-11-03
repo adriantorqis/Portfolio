@@ -1,0 +1,23 @@
+{
+  "slug": "stsport",
+  "title": "StSport",
+  "subtitle": "Integrated Sports Facility Booking & Equipment Management System",
+  "award": null,
+  "description": "StSport is an integrated sports management platform that simplifies **sports facility reservations** and **sports equipment purchases** through one centralized mobile application.\n\n## Project type\n\nInformation Systems Analysis & Design · System Architecture · UI/UX Design · Business Intelligence — Academic Project, BINUS University, 2025–2026.\n\n## Overview\n\nCustomers can explore sports categories, discover available facilities, schedule court reservations, and pay through Virtual Accounts. A dedicated marketplace for sport-specific equipment means facility bookings and essential gear live in one ecosystem.\n\nBeyond the customer side, StSport includes partner-side booking confirmation and administrative management. Partner staff review reservations and verify schedule availability, while administrators monitor monthly booking performance and quarterly equipment sales through analytical dashboards — revenue trends, sports distribution, and top-selling products.\n\n## Key system capabilities\n\n- **Sports facility booking:** browse sports categories, explore facilities, check availability, and reserve time slots.\n- **Virtual Account payments:** booking payments with automatic cancellation for reservations left unpaid past the payment window.\n- **Sports equipment purchasing:** browse and buy sport-specific equipment through an integrated ordering system.\n- **Booking management:** review reservations, submit cancellations, and process refund workflows.\n- **Partner management:** facility partners verify reservations, confirm schedules, and prevent booking conflicts.\n- **Business intelligence dashboard:** monthly booking reports, quarterly equipment sales analysis, revenue trends, and top-five product rankings.\n\n## System design & architecture\n\nThe project follows a structured System Analysis and Design approach — Fishbone Diagrams, Data Flow Diagrams, Use Case Models, Class Diagrams, Sequence Diagrams, State Transition Diagrams, and Activity Diagrams.\n\nThe system adopts a **three-tier Client/Server architecture**, separating the mobile interface, the application processing layer, and the database layer to support modular operations and centralized transaction handling.\n\n## Objective\n\nTo build an integrated sports service ecosystem that streamlines facility reservations, simplifies equipment purchasing, improves partner coordination, and gives administrators the insight they need for operational decisions.",
+  "tags": [
+    "system analysis & design",
+    "ui/ux",
+    "business intelligence",
+    "mobile app"
+  ],
+  "featured": false,
+  "link_url": null,
+  "file_path": null,
+  "cover_image_path": null,
+  "cover_media_kind": "image",
+  "cover_poster_path": null,
+  "role": [],
+  "tools": [],
+  "links": [],
+  "sort_order": 8
+}

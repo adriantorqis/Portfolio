@@ -66,6 +66,40 @@ export async function getAchievements(): Promise<Achievement[]> {
     .map((a) => ({ ...a, story: a.story ?? "", photos: readPhotos(`achievements/${a.slug}`) }));
 }
 
+const COVER_KINDS: Record<string, Project["cover_media_kind"]> = {
+  ".png": "image",
+  ".jpg": "image",
+  ".jpeg": "image",
+  ".webp": "image",
+  ".avif": "image",
+  ".gif": "gif",
+  ".mp4": "video",
+  ".webm": "video",
+};
+
+// An explicit cover_image_path wins; otherwise a file named cover.* in the
+// project's folder is picked up automatically, so a new project's cover is
+// just "drop cover.png in the folder".
+function coverFor(data: Partial<Project>): Pick<Project, "cover_image_path" | "cover_media_kind"> {
+  if (data.cover_image_path) {
+    return { cover_image_path: data.cover_image_path, cover_media_kind: data.cover_media_kind ?? "image" };
+  }
+  try {
+    const file = readdirSync(path.join(PUBLIC_DIR, "media", "projects", data.slug ?? "")).find(
+      (f) => /^cover\./i.test(f) && COVER_KINDS[path.extname(f).toLowerCase()]
+    );
+    if (file) {
+      return {
+        cover_image_path: `/media/projects/${data.slug}/${file}`,
+        cover_media_kind: COVER_KINDS[path.extname(file).toLowerCase()],
+      };
+    }
+  } catch {
+    // no folder yet
+  }
+  return { cover_image_path: null, cover_media_kind: "image" };
+}
+
 export async function getProjects(): Promise<Project[]> {
   const dir = path.join(CONTENT_DIR, "projects");
   let files: string[];
@@ -90,14 +124,14 @@ export async function getProjects(): Promise<Project[]> {
       slug: data.slug,
       title: data.title,
       description: data.description ?? "",
-      cover_image_path: data.cover_image_path ?? null,
-      cover_media_kind: data.cover_media_kind ?? "image",
+      ...coverFor(data),
       cover_poster_path: data.cover_poster_path ?? null,
       tags: data.tags ?? [],
       featured: data.featured ?? false,
       link_url: data.link_url ?? null,
       file_path: data.file_path ?? null,
       sort_order: data.sort_order ?? 0,
+      subtitle: data.subtitle ?? null,
       award: data.award ?? null,
       role: data.role ?? [],
       tools: data.tools ?? [],
@@ -237,11 +271,13 @@ function slugify(name: string): string {
   return name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
 }
 
-// content/tools.json is a list of names. An icon is picked up automatically
+// content/tools.json is a list of names (or { name, abbr, color } for a
+// custom monogram tile when there's no logo file). An icon is picked up automatically
 // from public/media/tools/ — named either exactly like the tool ("Visual
 // Studio Code.svg") or as its slug ("visual-studio-code.png").
 export async function getTools(): Promise<Tool[]> {
-  const data = readJson<(string | { name: string })[]>("tools.json") ?? [];
+  type Entry = string | { name: string; abbr?: string; color?: string };
+  const data = readJson<Entry[]>("tools.json") ?? [];
   let files: string[] = [];
   try {
     files = readdirSync(path.join(PUBLIC_DIR, "media", "tools"));
@@ -249,15 +285,20 @@ export async function getTools(): Promise<Tool[]> {
     // no icons yet
   }
   return data
-    .map((entry) => (typeof entry === "string" ? entry : entry?.name))
-    .filter((name): name is string => Boolean(name))
-    .map((name) => {
+    .map((entry) => (typeof entry === "string" ? { name: entry } : entry))
+    .filter((entry) => Boolean(entry?.name))
+    .map(({ name, abbr, color }) => {
       const wanted = new Set([name.toLowerCase(), slugify(name)]);
       const file = files.find((f) => {
         const ext = path.extname(f).toLowerCase();
         return ICON_EXTENSIONS.includes(ext) && wanted.has(f.slice(0, -ext.length).toLowerCase());
       });
-      return { name, icon: file ? `/media/tools/${file}` : null };
+      return {
+        name,
+        icon: file ? `/media/tools/${file}` : null,
+        abbr: abbr ?? null,
+        color: color ?? null,
+      };
     });
 }
 
@@ -271,9 +312,12 @@ export async function getExperiences(): Promise<Experience[]> {
     })
     .map((e) => ({
       slug: e.slug,
+      category: e.category ?? "Experience",
       role: e.role,
       organization: e.organization ?? "",
       period: e.period ?? "",
+      summary: e.summary ?? "",
+      story: e.story ?? "",
       bullets: e.bullets ?? [],
       highlights_title: e.highlights_title ?? null,
       highlights: e.highlights ?? [],
