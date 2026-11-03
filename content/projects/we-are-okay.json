@@ -20,6 +20,11 @@
     "Product Owner"
   ],
   "tools": [],
-  "links": [],
+  "links": [
+    {
+      "label": "Full project report",
+      "url": "https://docs.google.com/document/d/1oiU7z9E7O0RpSSwsIpcsBRfZ8H2UnlSQEQCH_ofpZdg/edit?usp=sharing"
+    }
+  ],
   "sort_order": 9
 }

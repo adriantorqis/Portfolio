@@ -18,6 +18,11 @@
   "cover_poster_path": null,
   "role": [],
   "tools": [],
-  "links": [],
+  "links": [
+    {
+      "label": "Full project report",
+      "url": "https://docs.google.com/document/d/1Vtx1WQwGLuzN3ruVP2kt-AU130tvL4Z0sRoV38GW200/edit?usp=sharing"
+    }
+  ],
   "sort_order": 8
 }
