@@ -1,7 +1,7 @@
 import { readFileSync, readdirSync } from "node:fs";
 import path from "node:path";
 import { imageSize } from "image-size";
-import type { Achievement, Certificate, Photo, Profile, Project, Testimonial } from "./types";
+import type { Achievement, Certificate, Experience, Tool, Photo, Profile, Project, Testimonial } from "./types";
 
 // Content lives in /content as hand-edited JSON, read at build time — there
 // is no database and no runtime fetch, so the site is fully static. Uses
@@ -98,6 +98,11 @@ export async function getProjects(): Promise<Project[]> {
       link_url: data.link_url ?? null,
       file_path: data.file_path ?? null,
       sort_order: data.sort_order ?? 0,
+      award: data.award ?? null,
+      role: data.role ?? [],
+      tools: data.tools ?? [],
+      links: (data.links ?? []).filter((l) => l?.label && l?.url),
+      gallery: readPhotos(`projects/${data.slug}/gallery`),
     });
   }
 
@@ -224,4 +229,56 @@ export async function getCertificates(): Promise<Certificate[]> {
       }
     })
   );
+}
+
+const ICON_EXTENSIONS = [".svg", ".png", ".webp", ".jpg", ".jpeg"];
+
+function slugify(name: string): string {
+  return name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+}
+
+// content/tools.json is a list of names. An icon is picked up automatically
+// from public/media/tools/ — named either exactly like the tool ("Visual
+// Studio Code.svg") or as its slug ("visual-studio-code.png").
+export async function getTools(): Promise<Tool[]> {
+  const data = readJson<(string | { name: string })[]>("tools.json") ?? [];
+  let files: string[] = [];
+  try {
+    files = readdirSync(path.join(PUBLIC_DIR, "media", "tools"));
+  } catch {
+    // no icons yet
+  }
+  return data
+    .map((entry) => (typeof entry === "string" ? entry : entry?.name))
+    .filter((name): name is string => Boolean(name))
+    .map((name) => {
+      const wanted = new Set([name.toLowerCase(), slugify(name)]);
+      const file = files.find((f) => {
+        const ext = path.extname(f).toLowerCase();
+        return ICON_EXTENSIONS.includes(ext) && wanted.has(f.slice(0, -ext.length).toLowerCase());
+      });
+      return { name, icon: file ? `/media/tools/${file}` : null };
+    });
+}
+
+export async function getExperiences(): Promise<Experience[]> {
+  const data = readJson<Partial<Experience>[]>("experiences.json") ?? [];
+  return data
+    .filter((e): e is Partial<Experience> & { slug: string; role: string } => {
+      if (e?.slug && e.role) return true;
+      console.error('[content] skipping an experience — needs "slug" and "role"');
+      return false;
+    })
+    .map((e) => ({
+      slug: e.slug,
+      role: e.role,
+      organization: e.organization ?? "",
+      period: e.period ?? "",
+      bullets: e.bullets ?? [],
+      highlights_title: e.highlights_title ?? null,
+      highlights: e.highlights ?? [],
+      photos: readPhotos(`experiences/${e.slug}`),
+      sort_order: e.sort_order ?? 0,
+    }))
+    .sort((a, b) => a.sort_order - b.sort_order);
 }

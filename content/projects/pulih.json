@@ -1,6 +1,7 @@
 {
   "slug": "pulih",
   "title": "Pulih",
+  "award": null,
   "description": "Pulih is a digital health platform designed to help people living with non-communicable diseases (NCDs) manage their long-term health conditions and medication more consistently, safely, and independently. By bringing medication management, AI-assisted health guidance, health monitoring, and family support into one integrated platform, Pulih aims to make the daily realities of chronic disease management easier for both patients and their caregivers.",
   "tags": [
     "product design",
@@ -14,5 +15,10 @@
   "cover_image_path": "/media/projects/pulih/cover.png",
   "cover_media_kind": "image",
   "cover_poster_path": null,
+  "role": [],
+  "tools": [
+    "Figma"
+  ],
+  "links": [],
   "sort_order": 6
 }

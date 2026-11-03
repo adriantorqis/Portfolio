@@ -1,0 +1,22 @@
+[
+  {
+    "slug": "is-case-study-club",
+    "role": "Member",
+    "organization": "Information Systems Case Study Club",
+    "period": "Present",
+    "bullets": [],
+    "highlights_title": null,
+    "highlights": [],
+    "sort_order": 0
+  },
+  {
+    "slug": "is-project",
+    "role": "Member",
+    "organization": "Information Systems Project",
+    "period": "Present",
+    "bullets": [],
+    "highlights_title": null,
+    "highlights": [],
+    "sort_order": 1
+  }
+]

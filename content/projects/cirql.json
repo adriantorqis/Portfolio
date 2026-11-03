@@ -1,6 +1,7 @@
 {
   "slug": "cirql",
   "title": "CIRQL",
+  "award": null,
   "description": "CIRQL is a sustainability-focused digital platform designed to transform how people understand, use, and dispose of electronic devices. Built around the principles of a circular economy, CIRQL aims to reduce electronic waste (e-waste) by helping users make more responsible decisions throughout the lifecycle of their devices, from ownership and maintenance to repair, reuse, and responsible recycling.",
   "tags": [
     "product design",
@@ -14,5 +15,10 @@
   "cover_image_path": "/media/projects/cirql/cover.png",
   "cover_media_kind": "image",
   "cover_poster_path": null,
+  "role": [],
+  "tools": [
+    "Figma"
+  ],
+  "links": [],
   "sort_order": 5
 }

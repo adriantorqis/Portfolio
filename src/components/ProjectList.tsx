@@ -2,11 +2,11 @@
 
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { useMemo, useState } from "react";
-import type { Project } from "@/lib/types";
+import type { Project, Tool } from "@/lib/types";
 import { ProjectDetail } from "./ProjectDetail";
 import { ProjectMedia } from "./ProjectMedia";
 
-export function ProjectList({ projects }: { projects: Project[] }) {
+export function ProjectList({ projects, tools }: { projects: Project[]; tools: Tool[] }) {
   const [activeTag, setActiveTag] = useState<string | null>(null);
   const [openProject, setOpenProject] = useState<Project | null>(null);
   const reduced = useReducedMotion();
@@ -120,6 +120,10 @@ export function ProjectList({ projects }: { projects: Project[] }) {
                     </button>
                   </h3>
 
+                  {project.award ? (
+                    <p className="mt-1.5 text-sm text-accent">{project.award}</p>
+                  ) : null}
+
                   <p className="mt-2.5 line-clamp-2 text-sm leading-relaxed text-muted">
                     {project.description}
                   </p>
@@ -175,7 +179,7 @@ export function ProjectList({ projects }: { projects: Project[] }) {
       ) : null}
 
       {openProject ? (
-        <ProjectDetail project={openProject} onClose={() => setOpenProject(null)} />
+        <ProjectDetail project={openProject} tools={tools} onClose={() => setOpenProject(null)} />
       ) : null}
     </div>
   );

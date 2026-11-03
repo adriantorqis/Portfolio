@@ -15,7 +15,16 @@ export type Project = {
   link_url: string | null;
   file_path: string | null;
   sort_order: number;
+  // Case-study context, all optional in the JSON.
+  award: string | null; // e.g. "1st Place — ITTODAY UI/UX Competition 2026"
+  role: string[];
+  tools: string[];
+  links: ProjectLink[]; // extra links beyond link_url (demo video, deck…)
+  // Not in the JSON — every image in public/media/projects/<slug>/gallery/.
+  gallery: Photo[];
 };
+
+export type ProjectLink = { label: string; url: string };
 
 export type Resume = {
   file_path: string;
@@ -82,4 +91,25 @@ export type Certificate = {
   issuer: string | null;
   description: string | null;
   image: string | null;
+};
+
+// icon is resolved at build time from public/media/tools/<name>.(svg|png|…)
+// — null means no file was found and a monogram is shown instead.
+export type Tool = {
+  name: string;
+  icon: string | null;
+};
+
+export type Experience = {
+  slug: string;
+  role: string;
+  organization: string;
+  period: string;
+  bullets: string[];
+  // An optional titled group of chips, e.g. "Courses taught".
+  highlights_title: string | null;
+  highlights: string[];
+  // Not in the JSON — every image in public/media/experiences/<slug>/.
+  photos: Photo[];
+  sort_order: number;
 };

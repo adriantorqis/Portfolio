@@ -1,25 +1,11 @@
 "use client";
 
-import Image from "next/image";
 import { useRef } from "react";
 import { toneFor } from "@/lib/achievement-tone";
-import type { Achievement, Photo } from "@/lib/types";
+import type { Achievement } from "@/lib/types";
 import { useModalDrawer } from "@/lib/useModalDrawer";
+import { Gallery } from "./Gallery";
 import { Highlighted } from "./Highlighted";
-
-// How many photos go in each row, for n photos. Few photos get big; many
-// photos wrap into rows of up to three. Rows are never lopsided (7 photos is
-// 2/2/3, not 3/3/1).
-function rowSizes(n: number): number[] {
-  if (n <= 2) return n ? [n] : [];
-  if (n === 3) return [1, 2];
-  const rows = Math.ceil(n / 3);
-  const base = Math.floor(n / rows);
-  const extra = n % rows;
-  // Give the extras to the last rows so the first row stays the smaller,
-  // more prominent one.
-  return Array.from({ length: rows }, (_, i) => base + (i >= rows - extra ? 1 : 0));
-}
 
 export function AchievementDetail({
   achievement,
@@ -105,56 +91,15 @@ export function AchievementDetail({
             </div>
           ) : null}
 
-          {achievement.photos.length ? <Gallery photos={achievement.photos} /> : null}
-        </div>
-      </div>
-    </div>
-  );
-}
-
-// Justified rows: every photo in a row gets flex-grow equal to its own
-// aspect ratio, so they all come out the same height and fill the row's
-// width exactly — nothing cropped, nothing stretched, any mix of portrait
-// and landscape.
-function Gallery({ photos }: { photos: Photo[] }) {
-  const rows = rowSizes(photos.length).map((count, i, all) =>
-    photos.slice(all.slice(0, i).reduce((sum, c) => sum + c, 0), all.slice(0, i + 1).reduce((sum, c) => sum + c, 0))
-  );
-
-  return (
-    <div className="mt-12 border-t border-line pt-8">
-      <p className="eyebrow">Photos</p>
-      <div className="mt-5 space-y-2">
-        {rows.map((rowPhotos, row) => {
-          const count = rowPhotos.length;
-          return (
-            <div key={row} className="flex gap-2">
-              {rowPhotos.map((photo) => {
-                const ratio = photo.width / photo.height;
-                return (
-                  <figure
-                    key={photo.src}
-                    className="group/photo photo-frame relative min-w-0 rounded-md"
-                    style={{ flex: `${ratio} 1 0%`, aspectRatio: `${photo.width} / ${photo.height}` }}
-                  >
-                    <Image
-                      src={photo.src}
-                      alt={photo.caption}
-                      fill
-                      sizes={count === 1 ? "672px" : `${Math.round(672 / count)}px`}
-                      draggable={false}
-                    />
-                    {photo.caption ? (
-                      <figcaption className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink/75 via-ink/25 to-transparent px-3 pb-2 pt-8 text-center text-xs text-bg opacity-0 transition-opacity duration-300 group-hover/photo:opacity-100">
-                        {photo.caption}
-                      </figcaption>
-                    ) : null}
-                  </figure>
-                );
-              })}
+          {achievement.photos.length ? (
+            <div className="mt-12 border-t border-line pt-8">
+              <p className="eyebrow">Photos</p>
+              <div className="mt-5">
+                <Gallery photos={achievement.photos} rowHeight={220} />
+              </div>
             </div>
-          );
-        })}
+          ) : null}
+        </div>
       </div>
     </div>
   );

@@ -1,6 +1,7 @@
 {
   "slug": "kind",
   "title": "KIND",
+  "award": "4th Place — ITECHNO CUP International UI/UX Competition 2026",
   "description": "KIND is a dementia-focused app designed to empower caregivers of people living with dementia with the information, monitoring, and assistance they need to provide safer, more informed, and more confident care. By bringing essential caregiving guidance, condition monitoring, and support tools into one place, KIND helps caregivers better understand what is happening, respond to changes earlier, and manage the challenges of dementia without having to navigate them alone.",
   "tags": [
     "product design",
@@ -14,5 +15,10 @@
   "cover_image_path": "/media/projects/kind/cover.png",
   "cover_media_kind": "image",
   "cover_poster_path": null,
+  "role": [],
+  "tools": [
+    "Figma"
+  ],
+  "links": [],
   "sort_order": 0
 }

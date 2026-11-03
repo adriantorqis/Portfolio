@@ -1,5 +1,7 @@
 import { AchievementList } from "@/components/AchievementList";
 import { CertificateCard } from "@/components/CertificateCard";
+import { ExperienceList } from "@/components/ExperienceList";
+import { ToolIcon } from "@/components/ToolBadge";
 import { CopyEmail } from "@/components/CopyEmail";
 import { Footer } from "@/components/Footer";
 import { Highlighted } from "@/components/Highlighted";
@@ -9,17 +11,19 @@ import { PhotoPlaceholder } from "@/components/PhotoPlaceholder";
 import { ProjectList } from "@/components/ProjectList";
 import { Reveal } from "@/components/Reveal";
 import { SplitHeadline } from "@/components/SplitHeadline";
-import { getAchievements, getCertificates, getOffTheClockPhotos, getProfile, getProjects, getTestimonials } from "@/lib/content";
+import { getAchievements, getCertificates, getExperiences, getTools, getOffTheClockPhotos, getProfile, getProjects, getTestimonials } from "@/lib/content";
 import Image from "next/image";
 
 export default async function HomePage() {
-  const [projects, profile, testimonials, offTheClockPhotos, achievements, certificates] = await Promise.all([
+  const [projects, profile, testimonials, offTheClockPhotos, achievements, certificates, experiences, tools] = await Promise.all([
     getProjects(),
     getProfile(),
     getTestimonials(),
     getOffTheClockPhotos(),
     getAchievements(),
     getCertificates(),
+    getExperiences(),
+    getTools(),
   ]);
   const heroPhoto = profile.hero_image_path;
   const resumeUrl = profile.resume?.file_path ?? null;
@@ -106,7 +110,7 @@ export default async function HomePage() {
               <h2 className="display mt-4 text-3xl md:text-4xl">Projects</h2>
             </Reveal>
             <div className="mt-12">
-              <ProjectList projects={projects} />
+              <ProjectList projects={projects} tools={tools} />
             </div>
           </div>
         </section>
@@ -134,6 +138,21 @@ export default async function HomePage() {
           </section>
         ) : null}
 
+        {/* EXPERIENCE */}
+        {experiences.length ? (
+          <section id="experience" className="scroll-mt-16 border-t border-line py-20 md:py-28">
+            <div className="mx-auto max-w-5xl px-6 md:px-12">
+              <Reveal>
+                <p className="eyebrow">Experience</p>
+                <h2 className="display mt-4 text-3xl md:text-4xl">Experiences</h2>
+              </Reveal>
+              <div className="mt-14">
+                <ExperienceList experiences={experiences} />
+              </div>
+            </div>
+          </section>
+        ) : null}
+
         {/* CERTIFICATIONS */}
         {certificates.length ? (
           <section id="certifications" className="scroll-mt-16 border-t border-line py-20 md:py-28">
@@ -149,6 +168,30 @@ export default async function HomePage() {
                   </Reveal>
                 ))}
               </div>
+            </div>
+          </section>
+        ) : null}
+
+        {/* TOOLS */}
+        {tools.length ? (
+          <section id="tools" className="scroll-mt-16 border-t border-line py-20 md:py-24">
+            <div className="mx-auto max-w-5xl px-6 md:px-12">
+              <Reveal>
+                <p className="eyebrow">Toolkit</p>
+                <h2 className="display mt-4 text-3xl md:text-4xl">Tools</h2>
+              </Reveal>
+              <ul className="mt-12 grid grid-cols-3 gap-x-4 gap-y-8 sm:grid-cols-5 lg:grid-cols-8">
+                {tools.map((tool, i) => (
+                  <Reveal as="li" key={tool.name} delay={i * 50}>
+                    <div className="tool-tile group flex flex-col items-center gap-3 text-center">
+                      <span className="flex h-16 w-16 items-center justify-center rounded-2xl border border-line bg-surface/60 transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:-translate-y-1 motion-reduce:transition-none">
+                        <ToolIcon tool={tool} size={30} />
+                      </span>
+                      <span className="text-sm text-ink">{tool.name}</span>
+                    </div>
+                  </Reveal>
+                ))}
+              </ul>
             </div>
           </section>
         ) : null}

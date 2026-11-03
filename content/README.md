@@ -119,3 +119,47 @@ name becomes its hover caption. Optional `"tone"`: `gold`, `silver`, `bronze`,
 The title, issuer and badge image are read from each Credly page when the site
 builds, so adding one is pasting a link and pushing. (If Credly can't be
 reached during a build, that card falls back to a plain link.)
+
+## Project screenshots & case-study details
+
+Drop any screenshots, flows or composites into
+`public/media/projects/<slug>/gallery/` — no JSON, no renaming. When the
+project is opened they're laid out automatically: every image keeps its real
+shape, each row is one height and spans the full width, and clicking an image
+opens it full-screen (← / → to browse). Order is by filename (prefix `01-`,
+`02-` to control it); a real filename becomes the hover caption.
+
+Optional fields in each `content/projects/<slug>.json`:
+
+```json
+"award": "1st Place — ITTODAY UI/UX Competition 2026",
+"role": ["UI/UX Designer", "UX Researcher"],
+"tools": ["Figma", "Maze"],
+"links": [{ "label": "Demo video", "url": "https://…" }]
+```
+
+## Tools
+
+`content/tools.json` is a list of names. Put a logo in `public/media/tools/`
+named like the tool (`Figma.svg`, `visual-studio-code.png`) and it's picked
+up; without one a monogram tile is shown. Project `tools` reuse these logos.
+
+## Experiences
+
+`content/experiences.json` — one entry per role:
+
+```json
+{
+  "slug": "lab-assistant",
+  "role": "Laboratory Assistant",
+  "organization": "Information Systems Laboratory",
+  "period": "January 2026 – Present",
+  "bullets": ["Taught 4 classes…", "Evaluated assignments…"],
+  "highlights_title": "Courses taught",
+  "highlights": ["Database Fundamentals", "System Analysis and Design"],
+  "sort_order": 0
+}
+```
+
+Photos go in `public/media/experiences/<slug>/` and appear beside the text
+(same auto layout as project screenshots).

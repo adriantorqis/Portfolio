@@ -1,6 +1,7 @@
 {
   "slug": "saul",
   "title": "Saul",
+  "award": "2nd Place — ISFEST UI/UX Competition 2026",
   "description": "Saul is a friction-based financial habit app that gives impulsive buyers a decision window before they buy, and builds saving habits with dedicated saving features.",
   "tags": [
     "product design",
@@ -14,5 +15,10 @@
   "cover_image_path": "/media/projects/saul/cover.png",
   "cover_media_kind": "image",
   "cover_poster_path": null,
+  "role": [],
+  "tools": [
+    "Figma"
+  ],
+  "links": [],
   "sort_order": 4
 }

@@ -313,3 +313,13 @@ body {
     transform: none;
   }
 }
+
+/* Gallery rows run shorter on phones so more than one image fits per row. */
+.gallery {
+  --row-h: calc(var(--row-h-desktop) * 0.55);
+}
+@media (min-width: 640px) {
+  .gallery {
+    --row-h: var(--row-h-desktop);
+  }
+}
